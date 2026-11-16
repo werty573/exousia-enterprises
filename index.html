@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Exousia Enterprises | Health products and household appliances</title>
+<meta name="description" content="Exousia Enterprises: everyday health products and dependable household appliances in one simple shop. Fill a basket and order on WhatsApp.">
+<meta name="theme-color" content="#FBFBFD">
+<meta property="og:title" content="Exousia Enterprises">
+<meta property="og:description" content="Health products and household appliances. Order on WhatsApp.">
+<meta property="og:image" content="https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=1200&h=630&q=70">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%235A3E9B'/%3E%3Ccircle cx='32' cy='32' r='11' fill='none' stroke='%23fff' stroke-width='6'/%3E%3Ccircle cx='48' cy='48' r='5' fill='%2347C9C2'/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('ex-theme');if(t==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://images.unsplash.com">
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/light/style.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#shop">Skip to the shop</a>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="mark" href="#" aria-label="Exousia Enterprises, home"><span class="mark-a">Exousia</span><span class="mark-b">Enterprises</span></a>
+    <div class="top-act">
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch to dark theme"><i class="ph-light ph-moon" aria-hidden="true"></i></button>
+      <button class="basket-btn" id="openBasket" type="button" aria-haspopup="dialog">
+        <i class="ph-light ph-basket" aria-hidden="true"></i><span>Basket</span><span class="count" id="count" aria-live="polite">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div class="hero-text">
+      <h1><span>Good health.</span> <span class="h1-b">A well-run home.</span></h1>
+      <p class="lede">Exousia Enterprises brings everyday health products and dependable household appliances into one simple shop. Order on WhatsApp.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#shop">Shop the range</a>
+        <a class="btn btn-ghost" href="https://wa.me/18686832333?text=Hello%20Exousia%20Enterprises%2C%20I%20have%20a%20question." target="_blank" rel="noopener"><i class="ph-light ph-whatsapp-logo" aria-hidden="true"></i>Message us</a>
+      </div>
+    </div>
+    <div class="doors">
+      <button class="door" type="button" data-world="health">
+        <span class="door-img"><img src="https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=900&h=1200&q=72" alt="Natural wellness and skin care products laid out with herbs" width="900" height="1200" fetchpriority="high"></span>
+        <span class="door-cap"><span class="door-name">Health <i class="ph-light ph-arrow-right" aria-hidden="true"></i></span><span class="door-sub">Vitamins and skin care</span></span>
+      </button>
+      <button class="door" type="button" data-world="home">
+        <span class="door-img"><img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=900&h=1200&q=72" alt="Bright white kitchen with pots on the stove" width="900" height="1200"></span>
+        <span class="door-cap"><span class="door-name">Home <i class="ph-light ph-arrow-right" aria-hidden="true"></i></span><span class="door-sub">Kitchen, cooling, laundry</span></span>
+      </button>
+    </div>
+  </section>
+
+  <section class="shop wrap" id="shop" aria-labelledby="shopTitle">
+    <div class="shop-head rv">
+      <h2 id="shopTitle">Two sides, one basket.</h2>
+      <div class="switch" role="tablist" aria-label="Choose a side of the shop" data-world="health">
+        <span class="switch-thumb" aria-hidden="true"></span>
+        <button role="tab" type="button" id="tab-health" data-world="health" aria-selected="true" aria-controls="grid"><i class="ph-light ph-heartbeat" aria-hidden="true"></i>Health</button>
+        <button role="tab" type="button" id="tab-home" data-world="home" aria-selected="false" aria-controls="grid" tabindex="-1"><i class="ph-light ph-house-line" aria-hidden="true"></i>Home</button>
+      </div>
+    </div>
+    <div class="filters" id="filters" role="group" aria-label="Filter products"></div>
+    <div class="grid" id="grid" role="tabpanel" aria-labelledby="tab-health"></div>
+    <p class="sample">Sample items and prices, shown for this demo. Your real stock goes here.</p>
+  </section>
+
+  <section class="how wrap" aria-labelledby="howTitle">
+    <h2 id="howTitle" class="rv">Ordering takes a minute.</h2>
+    <div class="steps">
+      <div class="step rv"><i class="ph-light ph-basket" aria-hidden="true"></i><h3>Fill your basket</h3><p>Pick from Health, Home or both. Everything lands in the same basket.</p></div>
+      <div class="step rv"><i class="ph-light ph-whatsapp-logo" aria-hidden="true"></i><h3>Send it on WhatsApp</h3><p>One tap opens WhatsApp with your order written out and ready to send.</p></div>
+      <div class="step rv"><i class="ph-light ph-package" aria-hidden="true"></i><h3>We confirm the rest</h3><p>We reply with stock, the final total, and how you would like to pay and collect.</p></div>
+    </div>
+  </section>
+
+  <section class="contact wrap" id="contact" aria-labelledby="contactTitle">
+    <h2 id="contactTitle" class="rv">Not sure what you need? Ask us.</h2>
+    <div class="contact-rows rv">
+      <a class="row" href="https://wa.me/18686832333?text=Hello%20Exousia%20Enterprises%2C%20I%20have%20a%20question." target="_blank" rel="noopener">
+        <span class="row-k">WhatsApp</span><span class="row-v">868-683-2333</span><i class="ph-light ph-arrow-up-right" aria-hidden="true"></i>
+      </a>
+      <a class="row" href="mailto:exousia.tt@gmail.com">
+        <span class="row-k">Email</span><span class="row-v">exousia.tt@gmail.com</span><i class="ph-light ph-arrow-up-right" aria-hidden="true"></i>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="foot" id="foot">
+  <div class="wrap foot-in">
+    <span class="mark"><span class="mark-a">Exousia</span><span class="mark-b">Enterprises</span></span>
+    <p>Health products and household appliances, Trinidad and Tobago.</p>
+    <p class="foot-demo"><a href="https://wa.me/18682591409" target="_blank" rel="noopener">Demo site by Portside Digital</a></p>
+  </div>
+</footer>
+
+<button class="bar" id="bar" type="button" hidden aria-haspopup="dialog">
+  <span class="bar-l"><i class="ph-light ph-basket" aria-hidden="true"></i><span id="barCount">0 items</span></span>
+  <span class="bar-r"><span id="barTotal">$0.00</span><i class="ph-light ph-caret-up" aria-hidden="true"></i></span>
+</button>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
+  <div class="sheet-head">
+    <h2 id="sheetTitle">Your basket</h2>
+    <button class="icon-btn" id="closeBasket" type="button" aria-label="Close basket"><i class="ph-light ph-x" aria-hidden="true"></i></button>
+  </div>
+  <div class="sheet-body">
+    <div class="empty" id="empty">
+      <i class="ph-light ph-basket" aria-hidden="true"></i>
+      <p>Your basket is empty. Add something from either side of the shop.</p>
+      <button class="btn btn-ghost" type="button" id="emptyBrowse">Browse the shop</button>
+    </div>
+    <div id="filled" hidden>
+      <ul class="lines" id="lines"></ul>
+      <form class="form" id="orderForm" novalidate>
+        <div class="field">
+          <label for="fName">Your name</label>
+          <input id="fName" name="name" type="text" autocomplete="name" placeholder="e.g. Anjali Mohammed">
+          <p class="err" id="errName" hidden>Please add your name so we know who is ordering.</p>
+        </div>
+        <div class="field">
+          <span class="label" id="lblRecv">Receive by</span>
+          <div class="seg" role="radiogroup" aria-labelledby="lblRecv">
+            <label><input type="radio" name="recv" value="Delivery" checked><span>Delivery</span></label>
+            <label><input type="radio" name="recv" value="Pickup"><span>Pickup</span></label>
+          </div>
+        </div>
+        <div class="field" id="areaField">
+          <label for="fArea">Delivery area</label>
+          <input id="fArea" name="area" type="text" autocomplete="address-level2" placeholder="e.g. Chaguanas">
+        </div>
+        <div class="field">
+          <label for="fNote">Note <span class="opt">optional</span></label>
+          <textarea id="fNote" name="note" rows="2" placeholder="Anything we should know"></textarea>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="sheet-foot" id="sheetFoot" hidden>
+    <div class="total"><span>Total</span><strong id="total">$0.00</strong></div>
+    <button class="btn btn-primary btn-wide" type="submit" form="orderForm"><i class="ph-light ph-whatsapp-logo" aria-hidden="true"></i>Send order on WhatsApp</button>
+    <p class="fine">Opens WhatsApp with your order ready to send. Nothing is charged here.</p>
+  </div>
+</aside>
+
+<script src="app.js"></script>
+</body>
+</html>
