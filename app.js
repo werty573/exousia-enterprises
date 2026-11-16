@@ -212,7 +212,7 @@
     const dark = root.dataset.theme === 'dark';
     themeBtn.innerHTML = `<i class="ph-light ph-${dark ? 'sun' : 'moon'}" aria-hidden="true"></i>`;
     themeBtn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
-    $('meta[name=theme-color]').content = dark ? '#121018' : '#FBFBFD';
+    $('meta[name=theme-color]').content = dark ? '#121018' : '#FAF9FE';
   }
   themeBtn.addEventListener('click', () => {
     root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
