@@ -1,64 +1,55 @@
 (() => {
   'use strict';
-  const WA = '18686832333';
+  const EX = window.EX, { money, esc } = EX;
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-  const img = (id, s = 600) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${s}&h=${s}&q=70`;
-  const money = n => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const store = {
     get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
   };
 
-  // Sample catalogue. Replace with real stock at launch.
-  const CATS = {
-    health: ['Supplements', 'Natural care', 'Body and skin'],
-    home: ['Kitchen', 'Cooling', 'Laundry and cleaning']
-  };
-  const P = [
-    { id: 'omega', w: 'health', c: 'Supplements', n: 'Omega-3 Fish Oil', m: '120 softgels', p: 145, i: '1512069772995-ec65ed45afd6', a: 'Fish oil softgels and tablets' },
-    { id: 'multi', w: 'health', c: 'Supplements', n: 'Daily Multivitamin', m: '90 capsules', p: 120, i: '1584362917165-526a968579e8', a: 'Capsules in a small glass dish' },
-    { id: 'zinc', w: 'health', c: 'Supplements', n: 'Zinc and Vitamin C', m: '60 tablets', p: 95, i: '1584308666744-24d5c474f2ae', a: 'Tablets in blister packs' },
-    { id: 'honey', w: 'health', c: 'Natural care', n: 'Raw Honey', m: '500 g jar', p: 85, i: '1558642452-9d2a7deb7f62', a: 'Honey dripping from a dipper into a jar' },
-    { id: 'mint', w: 'health', c: 'Natural care', n: 'Peppermint Essential Oil', m: '30 ml dropper', p: 70, i: '1608571423902-eed4a5ad8108', a: 'Amber dropper bottle of essential oil' },
-    { id: 'serum', w: 'health', c: 'Body and skin', n: 'Vitamin C Face Serum', m: '30 ml', p: 165, i: '1576426863848-c21f53c60b19', a: 'White serum bottle with a gold collar' },
-    { id: 'roller', w: 'health', c: 'Body and skin', n: 'Facial Roller Set', m: 'Roller, gua sha and oil', p: 130, i: '1600428877878-1a0fd85beda8', a: 'Rose quartz facial roller with face oil' },
-    { id: 'lotion', w: 'health', c: 'Body and skin', n: 'Hydrating Body Lotion', m: '250 ml pump', p: 110, i: '1540555700478-4be289fbecef', a: 'White pump bottle of lotion beside a towel and tulips' },
-    { id: 'blend', w: 'home', c: 'Kitchen', n: 'Glass Jug Blender', m: '1.5 L, 600 W', p: 399, i: '1585515320310-259814833e62', a: 'Blender jug filled with cut fruit' },
-    { id: 'mixer', w: 'home', c: 'Kitchen', n: 'Stand Mixer', m: '5 L bowl, 6 speeds', p: 1899, i: '1578643463396-0997cb5328c1', a: 'Cream stand mixer with a steel bowl' },
-    { id: 'hand', w: 'home', c: 'Kitchen', n: 'Hand Mixer', m: '5 speeds, 2 beaters', p: 249, i: '1583241475880-083f84372725', a: 'White hand mixer beside eggs and butter' },
-    { id: 'kettle', w: 'home', c: 'Kitchen', n: 'Stovetop Kettle', m: '2.5 L stainless steel', p: 189, i: '1594213114663-d94db9b17125', a: 'Stainless steel kettle' },
-    { id: 'fan', w: 'home', c: 'Cooling', n: 'Desk Fan', m: '8 inch, 3 speeds', p: 229, i: '1618941716939-553df3c6c278', a: 'Black desk fan on a table' },
-    { id: 'fridge', w: 'home', c: 'Cooling', n: 'Retro Fridge', m: '10 cu ft, top freezer', p: 5499, i: '1571175443880-49e1d25b2bc5', a: 'Teal retro fridge beside house plants' },
-    { id: 'wash', w: 'home', c: 'Laundry and cleaning', n: 'Front Load Washer', m: '7 kg, 15 programmes', p: 3299, i: '1626806787461-102c1bfaaea1', a: 'White front load washing machine' },
-    { id: 'vac', w: 'home', c: 'Laundry and cleaning', n: 'Robot Vacuum', m: 'Self docking', p: 1499, i: '1558317374-067fb5f30001', a: 'Robot vacuum on a rug' }
-  ];
-  const byId = Object.fromEntries(P.map(p => [p.id, p]));
+  let P = [], byId = {};
+  function load() { P = EX.products(); byId = Object.fromEntries(P.map(p => [p.id, p])); }
+  load();
 
   let world = store.get('ex-world', 'health');
-  if (!CATS[world]) world = 'health';
+  if (!EX.CATS[world]) world = 'health';
   let filter = 'All';
   let cart = store.get('ex-cart', {});
-  Object.keys(cart).forEach(k => { if (!byId[k] || !(cart[k] > 0)) delete cart[k]; });
+  function clampCart() {
+    Object.keys(cart).forEach(k => {
+      const p = byId[k];
+      if (!p || p.hidden || p.s < 1) delete cart[k]; else if (cart[k] > p.s) cart[k] = p.s;
+      if (cart[k] !== undefined && !(cart[k] > 0)) delete cart[k];
+    });
+  }
+  clampCart();
 
   const grid = $('#grid'), filters = $('#filters'), sw = $('.switch');
 
   /* ---------- shop ---------- */
-  const controlHTML = id => cart[id]
-    ? `<div class="qty" role="group" aria-label="Quantity of ${byId[id].n}"><button type="button" data-step="-1" aria-label="Remove one"><i class="ph-light ph-minus" aria-hidden="true"></i></button><span>${cart[id]}</span><button type="button" data-step="1" aria-label="Add one more"><i class="ph-light ph-plus" aria-hidden="true"></i></button></div>`
-    : `<button class="add" type="button" data-step="1" aria-label="Add ${byId[id].n} to basket"><i class="ph-light ph-plus" aria-hidden="true"></i></button>`;
-
+  function controlHTML(id) {
+    const p = byId[id];
+    if (p.s < 1) return '<span class="sold-tag">Sold out</span>';
+    const q = cart[id];
+    return q
+      ? `<div class="qty" role="group" aria-label="Quantity of ${esc(p.n)}"><button type="button" data-step="-1" aria-label="Remove one"><i class="ph-light ph-minus" aria-hidden="true"></i></button><span>${q}</span><button type="button" data-step="1" aria-label="Add one more"${q >= p.s ? ' disabled' : ''}><i class="ph-light ph-plus" aria-hidden="true"></i></button></div>`
+      : `<button class="add" type="button" data-step="1" aria-label="Add ${esc(p.n)} to basket"><i class="ph-light ph-plus" aria-hidden="true"></i></button>`;
+  }
   function renderFilters() {
-    filters.innerHTML = ['All', ...CATS[world]].map(c => `<button class="chip" type="button" aria-pressed="${c === filter}" data-f="${c}">${c}</button>`).join('');
+    const cats = [...new Set(P.filter(p => p.w === world && !p.hidden).map(p => p.c))];
+    const ordered = EX.CATS[world].filter(c => cats.includes(c)).concat(cats.filter(c => !EX.CATS[world].includes(c)));
+    if (filter !== 'All' && !ordered.includes(filter)) filter = 'All';
+    filters.innerHTML = ['All', ...ordered].map(c => `<button class="chip" type="button" aria-pressed="${c === filter}" data-f="${esc(c)}">${esc(c)}</button>`).join('');
   }
   function renderGrid(animate) {
-    const list = P.filter(p => p.w === world && (filter === 'All' || p.c === filter));
-    grid.innerHTML = list.map(p => `<article class="card" data-id="${p.id}">
-      <div class="card-img"><img src="${img(p.i)}" alt="${p.a}" width="600" height="600" loading="lazy" decoding="async"></div>
-      <h3>${p.n}</h3><p class="card-meta">${p.m}</p>
+    const list = P.filter(p => p.w === world && !p.hidden && (filter === 'All' || p.c === filter));
+    grid.innerHTML = list.length ? list.map(p => `<article class="card${p.s < 1 ? ' is-sold' : ''}" data-id="${esc(p.id)}">
+      <div class="card-img"><img src="${esc(EX.img(p))}" alt="${esc(p.n)}" width="600" height="600" loading="lazy" decoding="async"></div>
+      <h3>${esc(p.n)}</h3><p class="card-meta">${esc(p.m)}</p>${p.s > 0 && p.s <= EX.LOW ? `<p class="left">Only ${p.s} left</p>` : ''}
       <div class="card-row"><span class="price">${money(p.p)}</span><span class="ctl">${controlHTML(p.id)}</span></div>
-    </article>`).join('');
+    </article>`).join('') : '<p class="none">Nothing on this shelf right now. Check the other side of the shop.</p>';
     grid.setAttribute('aria-labelledby', 'tab-' + world);
     if (animate && grid.animate) $$('.card', grid).forEach((c, i) => c.animate(
       reduce ? [{ opacity: 0 }, { opacity: 1 }] : [{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }],
@@ -100,11 +91,12 @@
     return { n, t };
   };
   function step(id, d) {
-    const q = Math.max(0, Math.min(99, (cart[id] || 0) + d));
+    const p = byId[id]; if (!p) return;
+    const q = Math.max(0, Math.min(p.s, 99, (cart[id] || 0) + d));
     if (q) cart[id] = q; else delete cart[id];
     store.set('ex-cart', cart);
-    const card = $(`.card[data-id="${id}"] .ctl`, grid);
-    if (card) card.innerHTML = controlHTML(id);
+    const ctl = $(`.card[data-id="${CSS.escape(id)}"] .ctl`, grid);
+    if (ctl) ctl.innerHTML = controlHTML(id);
     sync(d > 0);
   }
   function sync(bump) {
@@ -116,23 +108,18 @@
     $('#barTotal').textContent = money(t);
     $('#total').textContent = money(t);
     bar.hidden = n === 0;
-    $('#empty').hidden = n > 0;
-    $('#filled').hidden = n === 0;
-    $('#sheetFoot').hidden = n === 0;
-    renderLines();
-  }
-  function renderLines() {
+    if (view === 'basket') showView('basket');
     $('#lines').innerHTML = Object.keys(cart).map(id => {
       const p = byId[id];
-      return `<li data-id="${id}"><img src="${img(p.i, 160)}" alt="" width="52" height="52">
-        <div><div class="line-name">${p.n}</div><div class="line-price">${money(p.p)} each</div></div>${controlHTML(id)}</li>`;
+      return `<li data-id="${esc(id)}"><img src="${esc(EX.img(p, 160))}" alt="" width="52" height="52">
+        <div><div class="line-name">${esc(p.n)}</div><div class="line-price">${money(p.p)} each</div></div>${controlHTML(id)}</li>`;
     }).join('');
   }
   grid.addEventListener('click', e => {
     const b = e.target.closest('[data-step]'); if (!b) return;
     const id = b.closest('.card').dataset.id, d = +b.dataset.step;
     step(id, d);
-    const next = $(`.card[data-id="${id}"] [data-step="${cart[id] ? d : 1}"]`, grid);
+    const next = $(`.card[data-id="${CSS.escape(id)}"] [data-step="${cart[id] ? d : 1}"]`, grid);
     if (next && e.detail === 0) next.focus();
   });
   $('#lines').addEventListener('click', e => {
@@ -140,12 +127,24 @@
     step(b.closest('li').dataset.id, +b.dataset.step);
   });
 
-  /* ---------- sheet ---------- */
+  /* ---------- sheet and its three views ---------- */
   const sheet = $('#sheet'), scrim = $('#scrim');
-  let lastFocus, closeT;
+  let view = 'basket', lastFocus, closeT;
+  function showView(v) {
+    view = v;
+    const has = totals().n > 0;
+    $('#empty').hidden = !(v === 'basket' && !has);
+    $('#filled').hidden = !(v === 'basket' && has);
+    $('#sheetFoot').hidden = !(v === 'basket' && has);
+    $('#payView').hidden = v !== 'pay';
+    $('#doneView').hidden = v !== 'done';
+    $('#sheetTitle').textContent = v === 'pay' ? 'Card payment' : v === 'done' ? 'Thank you' : 'Your basket';
+    if (v !== 'basket') $('.sheet-body').scrollTop = 0;
+  }
   function openSheet() {
     clearTimeout(closeT);
     lastFocus = document.activeElement;
+    if (view === 'done') showView('basket');
     sheet.hidden = false; scrim.hidden = false;
     void sheet.offsetWidth;
     sheet.classList.add('on'); scrim.classList.add('on');
@@ -159,19 +158,21 @@
     document.body.classList.remove('locked');
     document.body.style.paddingRight = '';
     barWatch();
-    closeT = setTimeout(() => { sheet.hidden = true; scrim.hidden = true; }, 430);
+    closeT = setTimeout(() => { sheet.hidden = true; scrim.hidden = true; if (view !== 'basket') showView('basket'); }, 430);
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
   $('#openBasket').addEventListener('click', openSheet);
   bar.addEventListener('click', openSheet);
   $('#closeBasket').addEventListener('click', closeSheet);
   scrim.addEventListener('click', closeSheet);
-  $('#emptyBrowse').addEventListener('click', () => { closeSheet(); $('#shop').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); });
+  const toShop = () => { closeSheet(); $('#shop').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); };
+  $('#emptyBrowse').addEventListener('click', toShop);
+  $('#doneShop').addEventListener('click', toShop);
   document.addEventListener('keydown', e => {
     if (!sheet.classList.contains('on')) return;
     if (e.key === 'Escape') closeSheet();
     if (e.key === 'Tab') {
-      const f = $$('button, [href], input, textarea', sheet).filter(el => el.offsetParent !== null);
+      const f = $$('button, [href], input, textarea', sheet).filter(el => el.offsetParent !== null && !el.disabled);
       if (!f.length) return;
       if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
       else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
@@ -191,19 +192,65 @@
   }
 
   /* ---------- order ---------- */
-  const form = $('#orderForm'), fName = $('#fName'), errName = $('#errName');
-  form.addEventListener('change', () => { $('#areaField').hidden = form.recv.value !== 'Delivery'; });
+  const form = $('#orderForm'), fName = $('#fName'), errName = $('#errName'), sendBtn = $('#sendBtn');
+  function paintForm() {
+    const pickup = form.recv.value !== 'Delivery', online = form.pay.value === 'online';
+    $('#areaField').hidden = pickup;
+    $('#codLabel').textContent = pickup ? 'Pay on pickup' : 'Pay on delivery';
+    $('#payHint').textContent = online ? 'Pay by card now. Your order is confirmed right away.' : (pickup ? 'Pay when you collect your order.' : 'Pay when your order arrives.');
+    sendBtn.innerHTML = online ? '<i class="ph-light ph-credit-card" aria-hidden="true"></i>Continue to payment' : '<i class="ph-light ph-whatsapp-logo" aria-hidden="true"></i>Send order on WhatsApp';
+    $('#fine').textContent = online ? 'Next step: a secure card payment page.' : 'Opens WhatsApp with your order ready to send. Nothing is charged here.';
+  }
+  form.addEventListener('change', paintForm);
   fName.addEventListener('input', () => { if (fName.value.trim()) { fName.removeAttribute('aria-invalid'); errName.hidden = true; } });
+  const details = () => ({
+    name: fName.value.trim(),
+    recv: form.recv.value === 'Delivery' ? 'Delivery' + (form.area.value.trim() ? ' to ' + form.area.value.trim() : '') : 'Pickup',
+    note: form.note.value.trim()
+  });
+  function waLink(o) {
+    const msg = ['Hello Exousia Enterprises, this is my order ' + o.no + ':', '',
+      ...o.items.map(i => `- ${i.q} x ${i.n} (${i.m}): ${money(i.q * i.p)}`), '',
+      'Total: TT' + money(o.total), 'Payment: ' + (o.pay === 'online' ? 'Paid online by card' : (o.recv === 'Pickup' ? 'Pay on pickup' : 'Pay on delivery')),
+      'Name: ' + o.name, 'Receive by: ' + o.recv];
+    if (o.note) msg.push('Note: ' + o.note);
+    return 'https://wa.me/' + EX.WA + '?text=' + encodeURIComponent(msg.join('\n'));
+  }
+  function finish(pay) {
+    load(); clampCart();
+    const order = EX.placeOrder({ lines: Object.keys(cart).map(id => ({ id, q: cart[id] })), pay, ...details() });
+    if (!order) { sync(false); showView('basket'); return null; }
+    cart = {}; store.set('ex-cart', cart);
+    load(); renderGrid(false);
+    $('#doneNo').textContent = order.no;
+    $('#doneText').textContent = pay === 'online'
+      ? 'Your card payment of TT' + money(order.total) + ' went through. We will message you to arrange ' + (order.recv === 'Pickup' ? 'pickup.' : 'delivery.')
+      : 'Your order is in. Send the WhatsApp message and we will confirm stock and ' + (order.recv === 'Pickup' ? 'pickup.' : 'delivery.');
+    $('#doneWa').href = waLink(order);
+    $('#doneWaText').textContent = pay === 'online' ? 'Send receipt on WhatsApp' : 'Open WhatsApp again';
+    view = 'done'; sync(false); showView('done');
+    return order;
+  }
   form.addEventListener('submit', e => {
     e.preventDefault();
-    const name = fName.value.trim();
-    if (!name) { fName.setAttribute('aria-invalid', 'true'); errName.hidden = false; fName.focus(); return; }
-    const { t } = totals();
-    const lines = Object.keys(cart).map(id => `- ${cart[id]} x ${byId[id].n} (${byId[id].m}): ${money(cart[id] * byId[id].p)}`);
-    const recv = form.recv.value === 'Delivery' ? 'Delivery' + (form.area.value.trim() ? ' to ' + form.area.value.trim() : '') : 'Pickup';
-    const msg = ['Hello Exousia Enterprises, I would like to order:', '', ...lines, '', 'Total: TT' + money(t), 'Name: ' + name, 'Receive by: ' + recv];
-    if (form.note.value.trim()) msg.push('Note: ' + form.note.value.trim());
-    window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg.join('\n')), '_blank', 'noopener');
+    if (!fName.value.trim()) { fName.setAttribute('aria-invalid', 'true'); errName.hidden = false; fName.focus(); return; }
+    if (form.pay.value === 'online') {
+      const { t } = totals();
+      $('#payTotal').textContent = 'TT' + money(t);
+      $('#payBtnAmt').textContent = 'Pay TT' + money(t);
+      $('#cName').value = fName.value.trim();
+      showView('pay');
+      return;
+    }
+    const order = finish('cod');
+    if (order) window.open(waLink(order), '_blank', 'noopener');
+  });
+  $('#payBack').addEventListener('click', () => showView('basket'));
+  const payBtn = $('#payBtn');
+  payBtn.addEventListener('click', () => {
+    if (payBtn.classList.contains('busy')) return;
+    payBtn.classList.add('busy'); payBtn.setAttribute('aria-busy', 'true');
+    setTimeout(() => { payBtn.classList.remove('busy'); payBtn.removeAttribute('aria-busy'); finish('online'); }, 1300);
   });
 
   /* ---------- theme ---------- */
@@ -226,8 +273,13 @@
     $$('.rv').forEach(el => ro.observe(el));
   } else $$('.rv').forEach(el => el.classList.add('in'));
 
+  /* ---------- live stock: the owner page writes to the same store ---------- */
+  function refresh() { load(); clampCart(); store.set('ex-cart', cart); renderFilters(); renderGrid(false); sync(false); }
+  addEventListener('storage', e => { if (e.key === 'ex-products' || e.key === null) refresh(); });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && !sheet.classList.contains('on')) refresh(); });
+
   /* ---------- init ---------- */
   sw.dataset.world = world;
   $$('[role=tab]', sw).forEach(t => { const on = t.dataset.world === world; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; });
-  paintTheme(); renderFilters(); renderGrid(false); sync(false);
+  paintTheme(); paintForm(); renderFilters(); renderGrid(false); sync(false);
 })();

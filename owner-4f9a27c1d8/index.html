@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Owner | Exousia Enterprises</title>
+<meta name="theme-color" content="#FAF9FE">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%235A3E9B'/%3E%3Ccircle cx='32' cy='32' r='11' fill='none' stroke='%23fff' stroke-width='6'/%3E%3Ccircle cx='48' cy='48' r='5' fill='%2347C9C2'/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('ex-theme');if(t==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/light/style.css">
+<link rel="stylesheet" href="../styles.css?v=3">
+<link rel="stylesheet" href="admin.css?v=3">
+</head>
+<body class="admin">
+
+<main class="gate" id="gate">
+  <div class="gate-card night">
+    <span class="mark"><span class="mark-a">Exousia</span><span class="mark-b">Enterprises</span></span>
+    <h1>Owner sign in</h1>
+    <p>This is a demo, so one tap lets you in. On the real site you get a one-time sign in link by email, and only your email works.</p>
+    <button class="btn btn-primary btn-wide" id="signIn" type="button">Sign in to the demo</button>
+  </div>
+</main>
+
+<div id="app" hidden>
+  <header class="top">
+    <div class="wrap top-in">
+      <span class="mark"><span class="mark-a">Exousia</span><span class="mark-b">Owner</span></span>
+      <div class="top-act">
+        <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch theme"><i class="ph-light ph-moon" aria-hidden="true"></i></button>
+        <a class="basket-btn" href="../" target="_blank" rel="noopener"><i class="ph-light ph-storefront" aria-hidden="true"></i><span>View shop</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap a-main">
+    <section class="stats night" aria-label="Today at a glance">
+      <button class="stat" type="button" data-go="orders:new"><strong id="stNew">0</strong><span>New orders</span></button>
+      <button class="stat" type="button" data-go="orders:paid"><strong id="stPaid">0</strong><span>Paid, to deliver</span></button>
+      <button class="stat" type="button" data-go="products:low"><strong id="stLow">0</strong><span>Low or sold out</span></button>
+    </section>
+
+    <div class="a-bar">
+      <div class="switch a-tabs" role="tablist" aria-label="Sections" data-world="health">
+        <span class="switch-thumb" aria-hidden="true"></span>
+        <button role="tab" type="button" id="tabProducts" data-tab="products" aria-selected="true"><i class="ph-light ph-package" aria-hidden="true"></i>Products</button>
+        <button role="tab" type="button" id="tabOrders" data-tab="orders" aria-selected="false"><i class="ph-light ph-receipt" aria-hidden="true"></i>Orders</button>
+      </div>
+      <button class="btn btn-primary a-add" id="addBtn" type="button"><i class="ph-light ph-plus" aria-hidden="true"></i>Add product</button>
+    </div>
+
+    <section id="panelProducts" aria-labelledby="tabProducts">
+      <div class="filters a-filters" id="pFilters" role="group" aria-label="Filter products"></div>
+      <ul class="rows" id="pRows"></ul>
+    </section>
+
+    <section id="panelOrders" aria-labelledby="tabOrders" hidden>
+      <div class="filters a-filters" id="oFilters" role="group" aria-label="Filter orders"></div>
+      <ul class="orders" id="oRows"></ul>
+    </section>
+
+    <p class="sample">Demo data lives in this browser only. <button class="linkish" id="resetBtn" type="button">Reset the demo</button></p>
+  </main>
+
+  <nav class="dock" aria-label="Sections">
+    <button type="button" data-tab="products" aria-current="true"><i class="ph-light ph-package" aria-hidden="true"></i>Products</button>
+    <button type="button" class="dock-add" id="dockAdd" aria-label="Add product"><i class="ph-light ph-plus" aria-hidden="true"></i></button>
+    <button type="button" data-tab="orders"><i class="ph-light ph-receipt" aria-hidden="true"></i>Orders</button>
+  </nav>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
+  <div class="sheet-head">
+    <h2 id="sheetTitle">Add product</h2>
+    <button class="icon-btn" id="closeSheet" type="button" aria-label="Close"><i class="ph-light ph-x" aria-hidden="true"></i></button>
+  </div>
+  <div class="sheet-body">
+    <form class="form" id="pForm" novalidate>
+      <div class="photo">
+        <div class="photo-prev" id="photoPrev"><i class="ph-light ph-image" aria-hidden="true"></i></div>
+        <div>
+          <label class="btn btn-ghost photo-btn" for="fPhoto"><i class="ph-light ph-camera" aria-hidden="true"></i>Choose photo</label>
+          <input class="visually-hidden" id="fPhoto" type="file" accept="image/*">
+          <p class="hint">Take one with your phone. It is shrunk for you so the shop stays fast.</p>
+        </div>
+      </div>
+      <div class="field">
+        <label for="fN">Product name</label>
+        <input id="fN" type="text" maxlength="60" placeholder="e.g. Air Fryer">
+        <p class="err" id="errN" hidden>Please give the product a name.</p>
+      </div>
+      <div class="field">
+        <label for="fM">Short detail <span class="opt">optional</span></label>
+        <input id="fM" type="text" maxlength="60" placeholder="e.g. 4 L, 1400 W">
+      </div>
+      <div class="two">
+        <div class="field">
+          <label for="fP">Price (TT$)</label>
+          <input id="fP" type="text" inputmode="decimal" placeholder="0.00">
+          <p class="err" id="errP" hidden>Add a price.</p>
+        </div>
+        <div class="field">
+          <label for="fS">In stock</label>
+          <input id="fS" type="text" inputmode="numeric" placeholder="0">
+        </div>
+      </div>
+      <div class="field">
+        <span class="label" id="lblSide">Side of the shop</span>
+        <div class="seg" role="radiogroup" aria-labelledby="lblSide">
+          <label><input type="radio" name="w" value="health" checked><span>Health</span></label>
+          <label><input type="radio" name="w" value="home"><span>Home</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label for="fC">Shelf</label>
+        <select id="fC"></select>
+      </div>
+      <label class="toggle-row"><span><strong>Show on the shop</strong><span class="hint">Turn off to hide it without deleting.</span></span><input type="checkbox" id="fShow" checked><span class="tg" aria-hidden="true"></span></label>
+    </form>
+  </div>
+  <div class="sheet-foot">
+    <button class="btn btn-primary btn-wide" type="submit" form="pForm" id="saveBtn">Save product</button>
+    <button class="btn btn-ghost btn-wide danger" type="button" id="delBtn" hidden>Delete product</button>
+  </div>
+</aside>
+
+<script src="../store.js?v=3"></script>
+<script src="admin.js?v=3"></script>
+</body>
+</html>

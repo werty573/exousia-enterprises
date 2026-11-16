@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Exousia Enterprises | Health products and household appliances</title>
-<meta name="description" content="Exousia Enterprises: everyday health products and dependable household appliances in one simple shop. Fill a basket and order on WhatsApp.">
+<meta name="description" content="Exousia Enterprises: everyday health products and dependable household appliances in one simple shop. Fill a basket, then pay online or on delivery.">
 <meta name="theme-color" content="#FAF9FE">
 <meta property="og:title" content="Exousia Enterprises">
-<meta property="og:description" content="Health products and household appliances. Order on WhatsApp.">
+<meta property="og:description" content="Health products and household appliances. Pay online or on delivery.">
 <meta property="og:image" content="https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=1200&h=630&q=70">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%235A3E9B'/%3E%3Ccircle cx='32' cy='32' r='11' fill='none' stroke='%23fff' stroke-width='6'/%3E%3Ccircle cx='48' cy='48' r='5' fill='%2347C9C2'/%3E%3C/svg%3E">
 <script>try{var t=localStorage.getItem('ex-theme');if(t==='dark')document.documentElement.dataset.theme='dark'}catch(e){}</script>
@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://images.unsplash.com">
 <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/light/style.css">
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
 <a class="skip" href="#shop">Skip to the shop</a>
@@ -36,10 +36,10 @@
   <section class="stage night"><span class="orb" aria-hidden="true"></span><div class="hero wrap">
     <div class="hero-text">
       <h1><span>Good health.</span> <span class="h1-b">A well-run home.</span></h1>
-      <p class="lede">Exousia Enterprises brings everyday health products and dependable household appliances into one simple shop. Order on WhatsApp.</p>
+      <p class="lede">Exousia Enterprises brings everyday health products and dependable household appliances into one simple shop. Pay online or on delivery.</p>
       <div class="cta">
         <a class="btn btn-primary" href="#shop">Shop the range</a>
-        <a class="btn btn-ghost" href="https://wa.me/18686832333?text=Hello%20Exousia%20Enterprises%2C%20I%20have%20a%20question." target="_blank" rel="noopener"><i class="ph-light ph-whatsapp-logo" aria-hidden="true"></i>Message us</a>
+        <a class="btn btn-ghost" href="https://wa.me/18682770650?text=Hello%20Exousia%20Enterprises%2C%20I%20have%20a%20question." target="_blank" rel="noopener"><i class="ph-light ph-whatsapp-logo" aria-hidden="true"></i>Message us</a>
       </div>
     </div>
     <div class="doors">
@@ -72,16 +72,16 @@
     <h2 id="howTitle" class="rv">Ordering takes a minute.</h2>
     <div class="steps">
       <div class="step rv"><i class="ph-light ph-basket" aria-hidden="true"></i><h3>Fill your basket</h3><p>Pick from Health, Home or both. Everything lands in the same basket.</p></div>
-      <div class="step rv"><i class="ph-light ph-whatsapp-logo" aria-hidden="true"></i><h3>Send it on WhatsApp</h3><p>One tap opens WhatsApp with your order written out and ready to send.</p></div>
-      <div class="step rv"><i class="ph-light ph-package" aria-hidden="true"></i><h3>We confirm the rest</h3><p>We reply with stock, the final total, and how you would like to pay and collect.</p></div>
+      <div class="step rv"><i class="ph-light ph-credit-card" aria-hidden="true"></i><h3>Pay your way</h3><p>Pay online by card, or choose pay on delivery and send the order on WhatsApp.</p></div>
+      <div class="step rv"><i class="ph-light ph-package" aria-hidden="true"></i><h3>We bring it to you</h3><p>You get an order number right away. We message you to arrange delivery or pickup.</p></div>
     </div>
   </section>
 
   <section class="contact wrap night" id="contact" aria-labelledby="contactTitle">
     <h2 id="contactTitle" class="rv">Not sure what you need? Ask us.</h2>
     <div class="contact-rows rv">
-      <a class="row" href="https://wa.me/18686832333?text=Hello%20Exousia%20Enterprises%2C%20I%20have%20a%20question." target="_blank" rel="noopener">
-        <span class="row-k">WhatsApp</span><span class="row-v">868-683-2333</span><i class="ph-light ph-arrow-up-right" aria-hidden="true"></i>
+      <a class="row" href="https://wa.me/18682770650?text=Hello%20Exousia%20Enterprises%2C%20I%20have%20a%20question." target="_blank" rel="noopener">
+        <span class="row-k">WhatsApp</span><span class="row-v">868-277-0650</span><i class="ph-light ph-arrow-up-right" aria-hidden="true"></i>
       </a>
       <a class="row" href="mailto:exousia.tt@gmail.com">
         <span class="row-k">Email</span><span class="row-v">exousia.tt@gmail.com</span><i class="ph-light ph-arrow-up-right" aria-hidden="true"></i>
@@ -138,16 +138,46 @@
           <label for="fNote">Note <span class="opt">optional</span></label>
           <textarea id="fNote" name="note" rows="2" placeholder="Anything we should know"></textarea>
         </div>
+        <div class="field">
+          <span class="label" id="lblPay">Payment</span>
+          <div class="seg" role="radiogroup" aria-labelledby="lblPay">
+            <label><input type="radio" name="pay" value="cod" checked><span id="codLabel">Pay on delivery</span></label>
+            <label><input type="radio" name="pay" value="online"><span>Pay online</span></label>
+          </div>
+          <p class="hint" id="payHint"></p>
+        </div>
       </form>
+    </div>
+    <div id="payView" class="pay" hidden>
+      <p class="notice"><i class="ph-light ph-info" aria-hidden="true"></i><span><strong>Demo checkout, no real charge.</strong> At launch this step is a secure card payment in TT dollars.</span></p>
+      <div class="pay-total"><span>Amount to pay</span><strong id="payTotal"></strong></div>
+      <div class="field"><label for="cName">Name on card</label><input id="cName" type="text" readonly></div>
+      <div class="field"><label for="cNum">Card number</label><input id="cNum" type="text" value="4111 1111 1111 1111" readonly></div>
+      <div class="two">
+        <div class="field"><label for="cExp">Expiry</label><input id="cExp" type="text" value="12 / 28" readonly></div>
+        <div class="field"><label for="cCvv">Security code</label><input id="cCvv" type="text" value="123" readonly></div>
+      </div>
+      <p class="hint">A sample card is filled in for you. Please do not enter a real card on this demo.</p>
+      <button class="btn btn-primary btn-wide" id="payBtn" type="button"><i class="ph-light ph-lock-simple" aria-hidden="true"></i><span id="payBtnAmt">Pay</span></button>
+      <button class="btn btn-ghost btn-wide" id="payBack" type="button">Back to basket</button>
+    </div>
+    <div id="doneView" class="done" hidden>
+      <span class="done-ic"><i class="ph-light ph-check" aria-hidden="true"></i></span>
+      <h3>Order confirmed</h3>
+      <p class="done-no">Order <strong id="doneNo"></strong></p>
+      <p id="doneText"></p>
+      <a class="btn btn-primary btn-wide" id="doneWa" href="#" target="_blank" rel="noopener"><i class="ph-light ph-whatsapp-logo" aria-hidden="true"></i><span id="doneWaText"></span></a>
+      <button class="btn btn-ghost btn-wide" id="doneShop" type="button">Keep shopping</button>
     </div>
   </div>
   <div class="sheet-foot" id="sheetFoot" hidden>
     <div class="total"><span>Total</span><strong id="total">$0.00</strong></div>
-    <button class="btn btn-primary btn-wide" type="submit" form="orderForm"><i class="ph-light ph-whatsapp-logo" aria-hidden="true"></i>Send order on WhatsApp</button>
-    <p class="fine">Opens WhatsApp with your order ready to send. Nothing is charged here.</p>
+    <button class="btn btn-primary btn-wide" id="sendBtn" type="submit" form="orderForm"></button>
+    <p class="fine" id="fine"></p>
   </div>
 </aside>
 
-<script src="app.js?v=2"></script>
+<script src="store.js?v=3"></script>
+<script src="app.js?v=3"></script>
 </body>
 </html>

@@ -261,3 +261,28 @@ input[aria-invalid="true"] { border-color: #C2413B; }
   .sheet, .bar, .switch-thumb { transition-duration: .01s; }
   .door-img img, .card-img img { transition: none; }
 }
+
+/* stock, payment and confirmation */
+.left { margin-top: 4px; font-size: 13px; font-weight: 500; color: var(--teal); }
+.sold-tag { height: 40px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 10px; background: var(--tint); color: var(--muted); font-size: 13px; font-weight: 500; white-space: nowrap; }
+.is-sold .card-img img { opacity: .45; filter: grayscale(.6); }
+.is-sold h3, .is-sold .price { color: var(--muted); }
+.qty button:disabled { opacity: .35; cursor: default; }
+.none { grid-column: 1 / -1; color: var(--muted); padding: 24px 0; }
+.hint { color: var(--muted); font-size: 13px; line-height: 1.45; }
+.pay, .done { display: grid; gap: 16px; padding-top: 12px; }
+.notice { display: grid; grid-template-columns: 22px 1fr; gap: 10px; padding: 14px; border-radius: 12px; background: var(--teal-soft); color: var(--ink); font-size: 14px; line-height: 1.45; }
+.notice i { font-size: 20px; color: var(--teal); margin-top: 1px; }
+.notice strong { font-weight: 600; }
+.pay-total { display: flex; justify-content: space-between; align-items: baseline; padding: 4px 0 12px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 15px; }
+.pay-total strong { color: var(--ink); font-size: 24px; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+input[readonly] { color: var(--muted); }
+.btn.busy { opacity: .6; pointer-events: none; }
+.done { justify-items: center; text-align: center; padding-top: 28px; }
+.done-ic { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--teal-soft); color: var(--teal); font-size: 30px; animation: pop .4s var(--ease-out); }
+.done h3 { font-size: 24px; font-weight: 500; letter-spacing: -0.02em; }
+.done-no { margin-top: -8px; color: var(--muted); }
+.done-no strong { color: var(--purple-text); font-weight: 600; font-variant-numeric: tabular-nums; }
+.done #doneText { color: var(--muted); max-width: 34ch; margin-bottom: 8px; }
+@media (prefers-reduced-motion: reduce) { .done-ic { animation: none; } }
